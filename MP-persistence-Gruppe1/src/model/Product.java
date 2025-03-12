@@ -8,6 +8,7 @@ public abstract class Product {
 	private String countryOfOrigin;
 	private int minStock;
 	private String barcode;
+	private int productID;
 	
 	public Product(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode) {
 		
@@ -18,6 +19,14 @@ public abstract class Product {
 		this.minStock = minStock;
 		this.barcode = barcode;
 		
+	}
+
+	public int getProductID() {
+		return productID;
+	}
+
+	public void setProductID(int productID) {
+		this.productID = productID;
 	}
 
 	public String getName() {

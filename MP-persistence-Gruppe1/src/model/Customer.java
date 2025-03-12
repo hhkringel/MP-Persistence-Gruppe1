@@ -5,6 +5,7 @@ public abstract class Customer {
 	private String phoneNo;
 	private String email;
 	private Address address;
+	private int customerID;
 	
 	
 	
@@ -15,6 +16,14 @@ public abstract class Customer {
 		this.address = address;
 	}
 	
+	public int getCustomerID() {
+		return customerID;
+	}
+
+	public void setCustomerID(int customerID) {
+		this.customerID = customerID;
+	}
+
 	public String getName() {
 		return name;
 	}
