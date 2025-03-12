@@ -1,5 +1,5 @@
 package db;
 
-public class EmployeeDB {
+public class EmployeeDB implements EmployeeDBIF {
 
 }
