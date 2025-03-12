@@ -1,5 +1,30 @@
 package controller;
 
-public class ProductController {
+import db.ProductDB;
+import db.ProductDBIF;
+import model.Product;
+
+public class ProductController implements ProductControllerIF {
+
+    ProductDBIF productDB;
+
+    ProductController() {
+        productDB = new ProductDB();
+    }
+
+    @Override
+    public Product findByBarcode(String barcode) {
+        return productDB.findByBarcode();
+    }
+
+    @Override
+    public void updateProduct(Product product) {
+        productDB.updateProduct(product);
+    }
+
+    @Override
+    public void insertProduct(Product product) {
+        productDB.insertProduct(product);
+    }
 
 }
