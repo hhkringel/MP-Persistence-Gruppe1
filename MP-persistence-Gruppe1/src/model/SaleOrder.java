@@ -12,10 +12,7 @@ public class SaleOrder {
 	
 	public SaleOrder(LocalDate purchaseDate, String orderNo) {
 		this.purchaseDate = purchaseDate;
-		this.deliveryDate = deliveryDate;
 		this.orderNo = orderNo;
-		this.isRent = isRent;
-		this.employee = employee;
 	}
 
 	public LocalDate getPurchaseDate() {
