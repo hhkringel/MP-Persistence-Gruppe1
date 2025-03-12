@@ -48,7 +48,7 @@ public String getDescription() {
 }
 
 
-public void setDescription(String description) {
-	this.description = description;
+public void setDescription(String newDescription) {
+	this.description = newDescription;
 }
 }

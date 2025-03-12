@@ -14,18 +14,14 @@ public abstract class Product {
 	protected Product(String name, double purchasePrice,
 			double salesPrice, double rentPrice,
 			String countryOfOrigin, int minStock, String barCode) {
-		
-		
 	
-	this.setName(name);
-	this.setPurchasePrice(purchasePrice);
-	this.setSalesPrice(salesPrice);
-	this.setRentPrice(rentPrice);
-	this.setCountryOfOrigin(countryOfOrigin);
-	this.setMinStock(minStock);
-	this.setBarCode(barCode);
-
-
+	this.name = name;
+	this.purchasePrice = purchasePrice;
+	this.salesPrice = salesPrice;
+	this.rentPrice = rentPrice;
+	this.countryOfOrigin = countryOfOrigin;
+	this.minStock = minStock;
+	this.barCode = barCode;
 
 
 }
