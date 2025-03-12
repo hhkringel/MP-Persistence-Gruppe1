@@ -6,19 +6,23 @@ public class OrderLine {
 	private double soldAtPrice;
 	private Product product;
 	
-	public OrderLine(int quantity, double soldAtPrice, Product product) {
+	public OrderLine() {
 		
 		this.quantity = quantity;
 		this.soldAtPrice = soldAtPrice;
 		this.product = product;
 		
 	}
+	
+	public void addProductToOrderLine(Product product) {
+		this.product = product;
+	}
 
 	public int getQuantity() {
 		return quantity;
 	}
 
-	public void setQuantity(int quantity) {
+	public void addQuantity(int quantity) {
 		this.quantity = quantity;
 	}
 
@@ -26,7 +30,7 @@ public class OrderLine {
 		return soldAtPrice;
 	}
 
-	public void setSoldAtPrice(double soldAtPrice) {
+	public void addSoldAtPrice(double soldAtPrice) {
 		this.soldAtPrice = soldAtPrice;
 	}
 
@@ -34,8 +38,5 @@ public class OrderLine {
 		return product;
 	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
 	
 }
