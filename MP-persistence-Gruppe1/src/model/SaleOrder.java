@@ -6,11 +6,12 @@ public class SaleOrder {
 
 	private LocalDate purchaseDate;
 	private LocalDate deliveryDate;
-	private String orderNo;
+	private int orderNo;
 	private boolean isRent;
+	private Customer customer;
 	private Employee employee;
 	
-	public SaleOrder(LocalDate purchaseDate, String orderNo) {
+	public SaleOrder(LocalDate purchaseDate, int orderNo) {
 		this.purchaseDate = purchaseDate;
 		this.orderNo = orderNo;
 	}
@@ -31,11 +32,11 @@ public class SaleOrder {
 		this.deliveryDate = deliveryDate;
 	}
 
-	public String getOrderNo() {
+	public int getOrderNo() {
 		return orderNo;
 	}
 
-	public void setOrderNo(String orderNo) {
+	public void setOrderNo(int orderNo) {
 		this.orderNo = orderNo;
 	}
 
@@ -53,6 +54,14 @@ public class SaleOrder {
 
 	public void setEmployee(Employee employee) {
 		this.employee = employee;
+	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 	
 	
