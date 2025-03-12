@@ -1,7 +1,7 @@
 package model;
 
 public class Clothing extends Product {
-	private Product product;
+	
 	private String size;
 	private String colour;
 
