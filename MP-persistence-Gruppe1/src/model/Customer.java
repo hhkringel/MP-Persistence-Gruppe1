@@ -1,11 +1,19 @@
 package model;
 
-public class Customer {
+public abstract class Customer {
 	private String name;
 	private String phoneNo;
 	private String email;
 	private Address address;
 	
+	
+	
+	public Customer(String name, String phoneNo, String email, Address address) {
+		this.name = name;
+		this.phoneNo = phoneNo;
+		this.email = email;
+		this.address = address;
+	}
 	
 	public String getName() {
 		return name;
