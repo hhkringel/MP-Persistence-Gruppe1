@@ -13,10 +13,6 @@ public class OrderLine {
 		this.product = product;
 		
 	}
-	
-	public void addProductToOrderLine(Product product) {
-		this.product = product;
-	}
 
 	public int getQuantity() {
 		return quantity;
@@ -44,6 +40,10 @@ public class OrderLine {
 
 	public void setOrderLineID(int orderLineID) {
 		this.orderLineID = orderLineID;
+	}
+	
+	public void setSoldAtPrice() {
+		soldAtPrice = getProduct().getPurchasePrice() * quantity;
 	}
 
 	
