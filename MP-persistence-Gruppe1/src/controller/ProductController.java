@@ -14,7 +14,7 @@ public class ProductController implements ProductControllerIF {
 
     @Override
     public Product findByBarcode(String barcode) {
-        return productDB.findByBarcode();
+        return productDB.findByBarcode(barcode);
     }
 
     @Override
