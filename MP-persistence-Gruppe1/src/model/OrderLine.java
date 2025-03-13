@@ -7,15 +7,11 @@ public class OrderLine {
 	private double soldAtPrice;
 	private Product product;
 	
-	public OrderLine(int quantity) {
+	public OrderLine(int quantity, Product product) {
 		
 		this.quantity = quantity;
-		
-		
-	}
-	
-	public void addProductToOrderLine(Product product) {
 		this.product = product;
+		
 	}
 
 	public int getQuantity() {

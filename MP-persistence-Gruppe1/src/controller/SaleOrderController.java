@@ -54,12 +54,10 @@ public class SaleOrderController implements SaleOrderControllerIF {
 	        throw new IllegalStateException("No active sale order. Create an order first.");
 	    }
 		else {
-			OrderLine orderLine = new OrderLine(quantity);
+			
 			Product foundProduct = productController.findByBarcode(barcode);
-		
-			orderLine.addProductToOrderLine(foundProduct);
-		
-		
+			OrderLine orderLine = new OrderLine(quantity, foundProduct);
+			
 			currentSaleOrder.addOrderLine(orderLine);
 		}
 		
