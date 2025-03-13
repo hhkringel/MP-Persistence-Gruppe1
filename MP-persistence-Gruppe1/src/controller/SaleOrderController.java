@@ -7,6 +7,7 @@ import db.SaleOrderDBIF;
 import model.OrderLine;
 import model.Product;
 import model.SaleOrder;
+import model.Address;
 import model.Customer;
 
 public class SaleOrderController implements SaleOrderControllerIF {
@@ -55,7 +56,7 @@ public class SaleOrderController implements SaleOrderControllerIF {
 	    }
 		else {
 			
-			Product foundProduct = productController.findByBarcode(barcode);
+			Product foundProduct = productController.findProductByBarcode(barcode);
 			OrderLine orderLine = new OrderLine(quantity, foundProduct);
 			
 			currentSaleOrder.addOrderLine(orderLine);
@@ -66,8 +67,8 @@ public class SaleOrderController implements SaleOrderControllerIF {
 		
 	}
 	
-	public void newPrivateCustomer(String name, String phone, String email) {
-		Customer currentCustomer = customerController.createPrivateCustomer(name, phone, email);
+	public void newPrivateCustomer(String name, String phone, String email, Address address) {
+		Customer currentCustomer = customerController.createPrivateCustomer(name, phone, email, address);
 		currentSaleOrder.setCustomer(currentCustomer);
 	}
 
