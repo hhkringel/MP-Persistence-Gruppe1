@@ -6,7 +6,7 @@ import model.SaleOrder;
 
 public interface SaleOrderControllerIF {
 	SaleOrder findSaleOrderByID(int orderNo);
-	void insertSaleOrder(SaleOrder saleOrder);
+	void insertSaleOrder();
 	SaleOrder createSaleOrder(LocalDate purchaseDate);
 	void newInvoice();
 

@@ -7,11 +7,10 @@ public class OrderLine {
 	private double soldAtPrice;
 	private Product product;
 	
-	public OrderLine() {
+	public OrderLine(int quantity) {
 		
 		this.quantity = quantity;
-		this.soldAtPrice = soldAtPrice;
-		this.product = product;
+		
 		
 	}
 	
@@ -45,6 +44,10 @@ public class OrderLine {
 
 	public void setOrderLineID(int orderLineID) {
 		this.orderLineID = orderLineID;
+	}
+	
+	public void setSoldAtPrice() {
+		soldAtPrice = getProduct().getPurchasePrice() * quantity;
 	}
 
 	

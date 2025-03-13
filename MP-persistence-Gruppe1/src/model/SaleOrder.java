@@ -65,5 +65,9 @@ public class SaleOrder {
 		this.customer = customer;
 	}
 	
+	public void addOrderLine(OrderLine orderLine) {
+		orderLines.add(orderLine);
+	}
+	
 	
 }

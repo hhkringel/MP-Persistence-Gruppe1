@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import db.SaleOrderDB;
 import db.SaleOrderDBIF;
 import model.OrderLine;
+import model.Product;
 import model.SaleOrder;
 import model.Customer;
 
@@ -13,7 +14,7 @@ public class SaleOrderController implements SaleOrderControllerIF {
 	private ProductControllerIF productController;
 	private CustomerControllerIF customerController;
 	private SaleOrderDBIF saleOrderDB;
-	private SaleOrder currentSaleOrder;
+	private SaleOrder currentSaleOrder = null;
 	
 	public SaleOrderController() {
 		
@@ -30,9 +31,9 @@ public class SaleOrderController implements SaleOrderControllerIF {
 
 
 	@Override
-	public void insertSaleOrder(SaleOrder saleOrder) {
+	public void insertSaleOrder() {
 		
-		saleOrderDB.insertSaleOrder(saleOrder);
+		saleOrderDB.insertSaleOrder(currentSaleOrder);
 	}
 	
 	@Override
@@ -48,7 +49,20 @@ public class SaleOrderController implements SaleOrderControllerIF {
 		
 	}
 	
-	public void addOrderLineToSaleOrder(OrderLine orderLine, ) {
+	public void addOrderLineToSaleOrder(String barcode, int quantity) {
+		if (currentSaleOrder == null) {
+	        throw new IllegalStateException("No active sale order. Create an order first.");
+	    }
+		else {
+			OrderLine orderLine = new OrderLine(quantity);
+			Product foundProduct = productController.findByBarcode(barcode);
+		
+			orderLine.addProductToOrderLine(foundProduct);
+		
+		
+			currentSaleOrder.addOrderLine(orderLine);
+		}
+		
 		
 		
 		
@@ -56,6 +70,7 @@ public class SaleOrderController implements SaleOrderControllerIF {
 	
 	public void newPrivateCustomer(String name, String phone, String email) {
 		Customer currentCustomer = customerController.createPrivateCustomer(name, phone, email);
+		currentSaleOrder.setCustomer(currentCustomer);
 	}
 
 
