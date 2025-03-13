@@ -5,10 +5,10 @@ public class GunReplica extends Product {
 	private String calibre;
 	private String material;
 	
-	public GunReplica(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode, String calibre, String materiale) {
-		super(name, purchasePrice, rentPrice, countryOfOrigin, minStock, barcode);
+	public GunReplica(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode, Supplier supplier, String calibre, String material) {
+		super(name, purchasePrice, rentPrice, countryOfOrigin, minStock, barcode, supplier);
 		this.calibre = calibre;
-		this.material = materiale;
+		this.material = material;
 		
 	}
 

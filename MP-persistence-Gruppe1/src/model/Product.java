@@ -8,9 +8,10 @@ public abstract class Product {
 	private String countryOfOrigin;
 	private int minStock;
 	private String barcode;
+	private Supplier supplier;
 	private int productID;
 	
-	public Product(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode) {
+	public Product(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode, Supplier supplier) {
 		
 		this.name = name;
 		this.purchasePrice = purchasePrice;
@@ -18,6 +19,7 @@ public abstract class Product {
 		this.countryOfOrigin = countryOfOrigin;
 		this.minStock = minStock;
 		this.barcode = barcode;
+		this.supplier = supplier;
 		
 	}
 
@@ -76,5 +78,15 @@ public abstract class Product {
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
 	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+	
+	
 	
 }

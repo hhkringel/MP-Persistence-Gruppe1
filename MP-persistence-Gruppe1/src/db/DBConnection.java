@@ -1,118 +1,119 @@
 package db;
 
 import java.sql.Connection;
+import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
-public class DBConnection {
-	private Connection connection = null;
-	private static DBConnection dbConnection;
+
+public class DBConnection {   
+	//Constants used to get access to the database
 	
-	private static final String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-	private static final String dbName = "miniproject";
-	private static final String serverAddress = "localhost";
-	//private static final String serverAddress = "192.168.56.2";
-	private static final int    serverPort = 1433;
-	private static final String userName = "sa";
-	private static final String password = "Uleyxsgmdb57";
-	
-	private DBConnection() {
-		String connectionString = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s;encrypt=false", 
-				serverAddress, serverPort, dbName, userName, password);
-		try {
-			Class.forName(driverClass);
-			connection = DriverManager.getConnection(connectionString);
-		} catch (ClassNotFoundException e) {
-			System.err.println("Could not load JDBC driver");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			System.err.println("Could not connect to database " + dbName + "@" + serverAddress + ":" + serverPort + " as user " + userName + " using password ******");
-			System.out.println("Connection string was: " + connectionString.substring(0, connectionString.length() - password.length()) + "....");
-			e.printStackTrace();
-		}
-	}
-	
-	public static DBConnection getInstance() {
-		if(dbConnection == null) {
-			dbConnection = new DBConnection();
-		}
-		return dbConnection;
+	//private static final String  driver = "jdbc:sqlserver://localhost:1433";
+	private static final String serverAddress = "jdbc:sqlserver://localhost:1433";
+    private static final String  databaseName = ";databaseName=PayStation";
+    
+    private static String  userName = ";user=sa";
+    private static String password = ";password=1234";
+    private static String encryption = ";encrypt=false";
+   
+    private DatabaseMetaData dma;
+    private static Connection con;
+    
+    // an instance of the class is generated
+    private static DBConnection  instance = null;
+
+    // the constructor is private to ensure that only one object of this class is created
+    private DBConnection()
+    {
+    	//String url = driver + databaseName + userName + password + encryption;
+    	String url = serverAddress+ databaseName + userName + password + encryption;
+    	System.out.println("URL: " + url);
+
+        try{
+            //load of driver
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            System.out.println("Driver class loaded ok");
+          
+        }
+        catch(Exception e){
+            System.out.println("Cannot find the driver");
+            System.out.println(e.getMessage());
+        }
+        try{
+            //connection to the database
+            con = DriverManager.getConnection(url);
+            con.setAutoCommit(true);
+            dma = con.getMetaData(); // get meta data
+            System.out.println("Connection to " + dma.getURL());
+            System.out.println("Driver " + dma.getDriverName());
+            System.out.println("Database product name " + dma.getDatabaseProductName());
+        }//end try
+        catch(Exception e){
+            System.out.println("Problems with the connection to the database:");
+            System.out.println(e.getMessage());
+            System.out.println(url);
+        }//end catch
+    }//end  constructor
+	   
+  //closeDb: closes the connection to the database
+    public static void closeConnection()
+    {
+       	try{
+            con.close();
+            instance= null;
+            System.out.println("The connection is closed");
+        }
+         catch (Exception e){
+            System.out.println("Error trying to close the database " +  e.getMessage());
+         }
+    }//end closeDB
+		
+    //getDBcon: returns the singleton instance of the DB connection
+    public Connection getDBcon()
+    {
+       return con;
+    }
+    //getDBcon: returns the singleton instance of the DB connection
+    public static boolean instanceIsNull()
+    {
+       return (instance == null);
+    }    
+    //this method is used to get the instance of the connection
+    public static DBConnection getInstance()
+    {
+        if (instance == null)
+        {
+          instance = new DBConnection();
+        }
+        return instance;
+    }
+    public static boolean getOpenStatus() {
+    	boolean isOpen = false;
+    	try {
+    		isOpen = (!con.isClosed());
+    	} catch (Exception sclExc) {
+    		isOpen = false;
+    	}
+    	return isOpen;
+    }
+    
+	public Connection getConnection() {
+		return con;
 	}
 	
 	public void startTransaction() throws SQLException {
-		connection.setAutoCommit(false);
+		con.setAutoCommit(false);
 	}
 	
 	public void commitTransaction() throws SQLException {
-		connection.commit();
-		connection.setAutoCommit(true);
+		con.commit();
+		con.setAutoCommit(true);
 	}
 	
 	public void rollbackTransaction() throws SQLException {
-		connection.rollback();
-		connection.setAutoCommit(true);
+		con.rollback();
+		con.setAutoCommit(true);
 	}
-	
-	public int executeInsertWithIdentity(PreparedStatement ps) throws SQLException  {
-		int res = -1;
-		try {
-			res = ps.executeUpdate();
-			if(res > 0) {
-				ResultSet rs = ps.getGeneratedKeys();
-				rs.next();
-				res = rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return res;
-	}
-	
-	public int executeInsertWithIdentity(String sql) throws SQLException  {
-		System.out.println("DBConnection, Inserting: " + sql);
-		int res = -1;
-		try (Statement s = connection.createStatement()) {
-			res = s.executeUpdate(sql, Statement.RETURN_GENERATED_KEYS);
-			if(res > 0) {
-				ResultSet rs = s.getGeneratedKeys();
-				rs.next();
-				res = rs.getInt(1);
-			}
-			//s.close(); -- the try block does this for us now
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return res;
-	}
-	
-	public int executeUpdate(String sql) throws SQLException {
-		System.out.println("DBConnection, Updating: " + sql);
-		int res = -1;
-		try (Statement s = connection.createStatement()){
-			res = s.executeUpdate(sql);
-		} catch (SQLException e) {
-			e.printStackTrace();
-			throw e;
-		}
-		return res;
-	}
-	
-	
-	public Connection getConnection() {
-		return connection;
-	}
-	
-	public void disconnect() {
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-}
+}//end DbConnection
