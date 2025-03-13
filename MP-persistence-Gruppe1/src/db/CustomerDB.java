@@ -16,8 +16,9 @@ public class CustomerDB implements CustomerDBIF {
 	private static final String INSERT_CUSTOMER_QUERY = "INSERT INTO Customer (name, phone_no, email, address_id, customer_id, cvr)"
 			+ "VALUES (?, ?, ?, ?, ?, ?)";
 	private PreparedStatement insertCustomer;
-	private static final String FIND_ADDRESS_BY_CUSTOMER_QUERY = "SELECT * FROM Address WHERE id = ?";
-	private PreparedStatement findAddressByCustomer;
+	private static final String INSERT_ADDRESS_QUERY = "INSERT INTO address(street_name, zip_code, city, country)"
+			+ "VALUES (?, ?, ?, ?)";
+	private PreparedStatement insertAddress;
 	
 	public CustomerDB() {
 		init();
@@ -29,7 +30,6 @@ public class CustomerDB implements CustomerDBIF {
 		try {
 			findCustomerByPhoneNo = con.prepareStatement(FIND_CUSTOMER_BY_PHONE_NO_QUERY);
 			insertCustomer = con.prepareStatement(INSERT_CUSTOMER_QUERY);
-			findAddressByCustomer = con.prepareStatement(FIND_ADDRESS_BY_CUSTOMER_QUERY)
 ;		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -52,7 +52,7 @@ public class CustomerDB implements CustomerDBIF {
 
 	@Override
 	public void insertCustomer(Customer customer) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 	
