@@ -4,7 +4,7 @@ import model.Product;
 
 public interface ProductControllerIF {
 
-    Product findByBarcode(String barcode);
+    Product findProductByBarcode(String barcode);
 
     void updateProduct(Product product);
 
