@@ -5,8 +5,8 @@ public class Accessory extends Product {
 	private String type;
 	private String description;
 	
-	public Accessory(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode, String type, String description) {
-		super(name, purchasePrice, rentPrice, countryOfOrigin, minStock, barcode);
+	public Accessory(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode, Supplier supplier, String type, String description) {
+		super(name, purchasePrice, rentPrice, countryOfOrigin, minStock, barcode, supplier);
 		this.type = type;
 		this.description = description;
 		
