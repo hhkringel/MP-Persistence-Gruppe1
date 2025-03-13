@@ -9,6 +9,7 @@ public abstract class Product {
 	private int minStock;
 	private String barcode;
 	private int productID;
+	private String supplier;
 	
 	public Product(String name, double purchasePrice, double rentPrice, String countryOfOrigin, int minStock, String barcode) {
 		
@@ -18,6 +19,8 @@ public abstract class Product {
 		this.countryOfOrigin = countryOfOrigin;
 		this.minStock = minStock;
 		this.barcode = barcode;
+		//Insert supplier
+		//ProductID?
 		
 	}
 
@@ -75,6 +78,14 @@ public abstract class Product {
 
 	public void setBarcode(String barcode) {
 		this.barcode = barcode;
+	}
+	
+	public String getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(String supplier) {
+		this.supplier = supplier;
 	}
 	
 }
