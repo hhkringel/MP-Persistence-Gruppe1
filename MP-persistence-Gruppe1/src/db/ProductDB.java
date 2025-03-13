@@ -43,7 +43,7 @@ public class ProductDB implements ProductDBIF {
 	}
 	
 	private void init() {
-		Connection con = DBConnection.getInstance().getConnection();
+		Connection con = DBConnection.getInstance().getDBcon();
 		
 		try {
 			findProductByBarcode = con.prepareStatement(FIND_PRODUCT_BY_BARCODE_QUERY);

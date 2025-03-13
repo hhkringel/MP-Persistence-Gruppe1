@@ -71,6 +71,10 @@ public class SaleOrderController implements SaleOrderControllerIF {
 		Customer currentCustomer = customerController.createPrivateCustomer(name, phone, email, address);
 		currentSaleOrder.setCustomer(currentCustomer);
 	}
+	
+	public SaleOrder getCurrentSaleOrder() {
+		return currentSaleOrder;
+	}
 
 
 	

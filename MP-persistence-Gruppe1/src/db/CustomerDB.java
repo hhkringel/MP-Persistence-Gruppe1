@@ -11,12 +11,14 @@ import model.Customer;
 import model.PrivateCustomer;
 
 public class CustomerDB implements CustomerDBIF {
-	private static final String FIND_CUSTOMER_BY_PHONE_NO_QUERY = "SELECT * FROM customer WHERE phone_no = ?";
+	private static final String FIND_CUSTOMER_BY_PHONE_NO_QUERY = "SELECT * FROM Customer WHERE phone_no = ?";
 	private PreparedStatement findCustomerByPhoneNo;
+	private static final String FIND_ADDRESS_BY_ADDRESSID_QUERY = "SELECT * FROM Address WHERE address_id = ?";
+	private PreparedStatement findAddressByAddressID;
 	private static final String INSERT_CUSTOMER_QUERY = "INSERT INTO Customer (phone_no, f_name, l_name, email, cvr, address_id, customer_type)"
 			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private PreparedStatement insertCustomer;
-	private static final String INSERT_ADDRESS_QUERY = "INSERT INTO address(street_name, zip_code, city, country)"
+	private static final String INSERT_ADDRESS_QUERY = "INSERT INTO Address(street_name, zip_code, city, country)"
 			+ "VALUES (?, ?, ?, ?)";
 	private PreparedStatement insertAddress;
 	
@@ -26,10 +28,12 @@ public class CustomerDB implements CustomerDBIF {
 
 	private void init() {
 		// TODO Auto-generated method stub
-		Connection con = DBConnection.getInstance().getConnection();
+		Connection con = DBConnection.getInstance().getDBcon();
 		try {
 			findCustomerByPhoneNo = con.prepareStatement(FIND_CUSTOMER_BY_PHONE_NO_QUERY);
+			findAddressByAddressID = con.prepareStatement(FIND_ADDRESS_BY_ADDRESSID_QUERY);
 			insertCustomer = con.prepareStatement(INSERT_CUSTOMER_QUERY);
+			insertAddress = con.prepareStatement(INSERT_ADDRESS_QUERY);
 ;		} catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -49,6 +53,7 @@ public class CustomerDB implements CustomerDBIF {
 		}
 		return currentCustomer;
 	}
+	
 
 	@Override
 	public void insertCustomer(Customer customer) {
@@ -66,7 +71,7 @@ public class CustomerDB implements CustomerDBIF {
 					String[] name = customer.getName().split(" ");
 					insertCustomer.setString(2, name[0]);
 					insertCustomer.setString(3, name[1]);
-					insertCustomer.setString(3, customer.getEmail());
+					insertCustomer.setString(4, customer.getEmail());
 					insertCustomer.setInt(5, customer.getAddress().getAddressID());
 					insertCustomer.setString(6, customer.getCustomerType());
 					
@@ -87,16 +92,18 @@ public class CustomerDB implements CustomerDBIF {
 	
 	public Customer buildObject(ResultSet resultSet) {
 	    Customer currentCustomer = null;
+	    Address address = null;
 	    
 	    try {
-	        // Build Address directly from the ResultSet
-	        Address address = new Address(
-	            resultSet.getString("street_name"),
-	            resultSet.getInt("zip_code"),
-	            resultSet.getString("city"),
-	            resultSet.getString("country")
-	        );
-
+	    	
+//	    	findAddressByAddressID.setInt(1, resultSet.getInt("address_id"));
+//			ResultSet resultSetAddress = findAddressByAddressID.executeQuery();
+//			
+//			address = new Address(resultSetAddress.getString("street_name"),
+//								  resultSetAddress.getInt("zip_code"), 
+//								  resultSetAddress.getString("city"), 
+//								  resultSetAddress.getString("country"));
+			
 	        String name = "" + resultSet.getString("f_name") + resultSet.getString("l_name");
 	        String phoneNo = resultSet.getString("phone_no");
 	        String email = resultSet.getString("email");
@@ -105,10 +112,10 @@ public class CustomerDB implements CustomerDBIF {
 	        String customerType = resultSet.getString("customer_type");
 			switch (customerType) {
 			case "ClubCustomer":
-				currentCustomer = new ClubCustomer(name, phoneNo, email, address, cvr);
+				currentCustomer = new ClubCustomer(name, phoneNo, email, null, cvr);
 				break;
 			case "PrivateCustomer":
-				currentCustomer = new PrivateCustomer(name, phoneNo, email, address);
+				currentCustomer = new PrivateCustomer(name, phoneNo, email, null);
 				break;
 			}
 	        
@@ -118,6 +125,10 @@ public class CustomerDB implements CustomerDBIF {
 	    
 	    return currentCustomer;
 	}
+	
+	
+	
+	
 
 
 }

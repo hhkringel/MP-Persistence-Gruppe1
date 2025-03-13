@@ -3,19 +3,26 @@ package db;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 
 public class DBConnection {   
 	//Constants used to get access to the database
 	
 	//private static final String  driver = "jdbc:sqlserver://localhost:1433";
-	private static final String serverAddress = "jdbc:sqlserver://localhost:1433";
-    private static final String  databaseName = ";databaseName=DMA-CSD-S243_10647447";
-    
-    private static String  userName = ";user=sa";
-    private static String password = ";password=Fangeleg3";
-    private static String encryption = ";encrypt=false";
+//	private static final String serverAddress = "jdbc:sqlserver:hildur.ucn.dk";
+//	private static final String databaseName = ";databaseName=DMA-CSD-S243_10647447";
+//	private static String userName = ";user=sa";
+//	private static String password = ";password=Password1!";
+//	private static String encryption = ";encrypt=false";
+	
+//	private static final String driverClass = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	private static final String dbName = "DMA-CSD-S243_10647447";
+	//private static final String serverAddress = "localhost";
+	private static final String serverAddress = "hildur.ucn.dk";
+	private static final int serverPort = 1433;
+	private static final String userName = "DMA-CSD-S243_10647447";
+	private static final String password = "Password1!";
+
    
     private DatabaseMetaData dma;
     private static Connection con;
@@ -27,7 +34,8 @@ public class DBConnection {
     private DBConnection()
     {
     	//String url = driver + databaseName + userName + password + encryption;
-    	String url = serverAddress+ databaseName + userName + password + encryption;
+    	String url = String.format("jdbc:sqlserver://%s:%d;databaseName=%s;user=%s;password=%s;encrypt=false",
+				serverAddress, serverPort, dbName, userName, password);
     	System.out.println("URL: " + url);
 
         try{
@@ -97,23 +105,5 @@ public class DBConnection {
     	}
     	return isOpen;
     }
-    
-	public Connection getConnection() {
-		return con;
-	}
-	
-	public void startTransaction() throws SQLException {
-		con.setAutoCommit(false);
-	}
-	
-	public void commitTransaction() throws SQLException {
-		con.commit();
-		con.setAutoCommit(true);
-	}
-	
-	public void rollbackTransaction() throws SQLException {
-		con.rollback();
-		con.setAutoCommit(true);
-	}
 
 }//end DbConnection

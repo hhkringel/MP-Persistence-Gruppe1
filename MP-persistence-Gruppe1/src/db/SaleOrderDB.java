@@ -23,7 +23,7 @@ public class SaleOrderDB implements SaleOrderDBIF {
 	}
 	
 	public void init() {
-		Connection con = DBConnection.getInstance().getConnection();
+		Connection con = DBConnection.getInstance().getDBcon();
 		
 		try {
 			findSaleOrderByID = con.prepareStatement(FIND_SALEORDER_BY_ID_QUERY);
@@ -59,8 +59,7 @@ public class SaleOrderDB implements SaleOrderDBIF {
 		SaleOrder currentSaleOrder = null;
 		
 		try {
-			currentSaleOrder = new SaleOrder(resultSet.getDate("purchase_date").toLocalDate(), 
-											 resultSet.getInt("order_no"));
+			currentSaleOrder = new SaleOrder(resultSet.getDate("purchase_date").toLocalDate());
 		} catch(SQLException e) {
 			
 		}

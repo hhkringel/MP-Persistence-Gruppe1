@@ -9,13 +9,7 @@ public class Address {
 	private int addressID;
 	
 	
-	public int getAddressID() {
-		return addressID;
-	}
-
-	public void setAddressID(int addressID) {
-		this.addressID = addressID;
-	}
+	
 
 	public Address(String streetName, int zipCode, String city, String country) {
 		
@@ -63,5 +57,13 @@ public class Address {
 
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	
+	public int getAddressID() {
+		return addressID;
+	}
+
+	public void setAddressID(int addressID) {
+		this.addressID = addressID;
 	}
 }
