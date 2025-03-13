@@ -52,8 +52,37 @@ public class CustomerDB implements CustomerDBIF {
 
 	@Override
 	public void insertCustomer(Customer customer) {
+		Customer currentCustomer = null;
 		
-		
+		try {
+					insertAddress.setString(1, customer.getAddress().getStreetName());
+					insertAddress.setString(2, customer.getAddress().getZipCode());
+					insertAddress.setString(3, customer.getAddress().getCity());
+					insertAddress.setString(4, customer.getAddress().getCountry());
+					int affectedRows = insertAddress.executeUpdate();
+					if (affectedRows == 0) {
+						throw new SQLException("Failed to insert address, no rows affected");
+					}
+					
+					insertCustomer.setString(1, customer.getName());
+					insertCustomer.setString(2, customer.getPhoneNo());
+					insertCustomer.setString(3, customer.getEmail());
+					
+					insertCustomer.setInt(5, customer.getCustomerID());
+					
+					if(customer instanceof ClubCustomer) {
+						insertCustomer.setString(6, ((ClubCustomer) customer).getCvr());
+					} else {
+						insertCustomer.setNull(6, java.sql.Types.VARCHAR);
+					}
+					
+					affectedRows = insertCustomer.executeUpdate();
+					if (affectedRows == 0) {
+						throw new SQLException("Failed to insert customer, no rows affected");
+					}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public Customer buildObject(ResultSet resultSet) {
