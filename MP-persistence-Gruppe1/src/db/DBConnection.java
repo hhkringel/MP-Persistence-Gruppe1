@@ -3,6 +3,7 @@ package db;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 
 public class DBConnection {   
@@ -96,5 +97,23 @@ public class DBConnection {
     	}
     	return isOpen;
     }
+    
+	public Connection getConnection() {
+		return con;
+	}
+	
+	public void startTransaction() throws SQLException {
+		con.setAutoCommit(false);
+	}
+	
+	public void commitTransaction() throws SQLException {
+		con.commit();
+		con.setAutoCommit(true);
+	}
+	
+	public void rollbackTransaction() throws SQLException {
+		con.rollback();
+		con.setAutoCommit(true);
+	}
 
 }//end DbConnection
