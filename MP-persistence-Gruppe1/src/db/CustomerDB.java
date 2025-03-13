@@ -57,6 +57,18 @@ public class CustomerDB implements CustomerDBIF {
 
 	@Override
 	public void insertCustomer(Customer customer) {
+		
+		
+		String[] name = customer.getName().split(" ");
+		System.out.println("Inserting customer with values:");
+		System.out.println("Phone No: " + customer.getPhoneNo());
+		System.out.println("First Name: " + name[0]);
+		System.out.println("Last Name: " + name[1]);
+		System.out.println("Email: " + customer.getEmail());
+		System.out.println("CVR: " + (customer instanceof ClubCustomer ? ((ClubCustomer) customer).getCvr() : "NULL"));
+		System.out.println("Address ID: " + customer.getAddress().getAddressID());
+		System.out.println("Customer Type: " + customer.getCustomerType());
+		
 		try {
 					insertAddress.setString(1, customer.getAddress().getStreetName());
 					insertAddress.setInt(2, customer.getAddress().getZipCode());
@@ -68,12 +80,13 @@ public class CustomerDB implements CustomerDBIF {
 					}
 					
 					insertCustomer.setString(1, customer.getPhoneNo());
-					String[] name = customer.getName().split(" ");
+//					String[] name = customer.getName().split(" ");
 					insertCustomer.setString(2, name[0]);
 					insertCustomer.setString(3, name[1]);
 					insertCustomer.setString(4, customer.getEmail());
-					insertCustomer.setInt(5, customer.getAddress().getAddressID());
-					insertCustomer.setString(6, customer.getCustomerType());
+					insertCustomer.setNull(5, java.sql.Types.VARCHAR);
+					insertCustomer.setInt(6, customer.getAddress().getAddressID());
+					insertCustomer.setString(7, customer.getCustomerType());
 					
 					if(customer instanceof ClubCustomer) {
 						insertCustomer.setString(4, ((ClubCustomer) customer).getCvr());
@@ -96,28 +109,35 @@ public class CustomerDB implements CustomerDBIF {
 	    
 	    try {
 	    	
-//	    	findAddressByAddressID.setInt(1, resultSet.getInt("address_id"));
-//			ResultSet resultSetAddress = findAddressByAddressID.executeQuery();
-//			
-//			address = new Address(resultSetAddress.getString("street_name"),
-//								  resultSetAddress.getInt("zip_code"), 
-//								  resultSetAddress.getString("city"), 
-//								  resultSetAddress.getString("country"));
-			
-	        String name = "" + resultSet.getString("f_name") + resultSet.getString("l_name");
-	        String phoneNo = resultSet.getString("phone_no");
-	        String email = resultSet.getString("email");
-	        String cvr = resultSet.getString("cvr");
-
-	        String customerType = resultSet.getString("customer_type");
-			switch (customerType) {
-			case "ClubCustomer":
-				currentCustomer = new ClubCustomer(name, phoneNo, email, null, cvr);
-				break;
-			case "PrivateCustomer":
-				currentCustomer = new PrivateCustomer(name, phoneNo, email, null);
-				break;
+	    	if(resultSet.next()) {
+	    	findAddressByAddressID.setInt(1, resultSet.getInt("address_id"));
+			ResultSet resultSetAddress = findAddressByAddressID.executeQuery();
+			if(resultSetAddress.next()) {
+				address = new Address(resultSetAddress.getString("street_name"),
+						  resultSetAddress.getInt("zip_code"), 
+						  resultSetAddress.getString("city"), 
+						  resultSetAddress.getString("country"));
 			}
+			
+			
+			
+			
+				String name = "" + resultSet.getString("f_name") + resultSet.getString("l_name");
+		        String phoneNo = resultSet.getString("phone_no");
+		        String email = resultSet.getString("email");
+		        String cvr = resultSet.getString("cvr");
+
+		        String customerType = resultSet.getString("customer_type");
+				switch (customerType) {
+				case "ClubCustomer":
+					currentCustomer = new ClubCustomer(name, phoneNo, email, null, cvr);
+					break;
+				case "PrivateCustomer":
+					currentCustomer = new PrivateCustomer(name, phoneNo, email, null);
+					break;
+				}
+			}
+	        
 	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
