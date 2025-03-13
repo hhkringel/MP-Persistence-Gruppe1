@@ -52,8 +52,6 @@ public class CustomerDB implements CustomerDBIF {
 
 	@Override
 	public void insertCustomer(Customer customer) {
-		Customer currentCustomer = null;
-		
 		try {
 					insertAddress.setString(1, customer.getAddress().getStreetName());
 					insertAddress.setString(2, customer.getAddress().getZipCode());
