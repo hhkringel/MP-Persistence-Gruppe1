@@ -5,14 +5,12 @@ public class Supplier {
 	private String phoneNo;
 	private String email;
 	private Address address;
-	private String cvr;
 	
-	public Supplier(String name, String phoneNo, String email, Address address, String cvr) {
+	public Supplier(String name, String phoneNo, String email, Address address) {
 		this.name = name;
 		this.phoneNo = phoneNo;
 		this.email = email;
 		this.address = address;
-		this.cvr = cvr;
 	}
 
 	public String getName() {
@@ -45,14 +43,6 @@ public class Supplier {
 
 	public void setAddress(Address address) {
 		this.address = address;
-	}
-
-	public String getCvr() {
-		return cvr;
-	}
-
-	public void setCvr(String cvr) {
-		this.cvr = cvr;
 	}
 	
 	

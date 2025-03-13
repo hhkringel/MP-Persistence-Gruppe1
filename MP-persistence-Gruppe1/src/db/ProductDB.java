@@ -15,7 +15,7 @@ import model.Supplier;
 
 public class ProductDB implements ProductDBIF {
 	
-	private static final String FIND_PRODUCT_BY_BARCODE_QUERY = "SELECT FROM Product WHERE barcode = ?";
+	private static final String FIND_PRODUCT_BY_BARCODE_QUERY = "SELECT * FROM Product WHERE barcode = ?";
 	private PreparedStatement findProductByBarcode;
 	private static final String UPDATE_PRODUCT_QUERY = "";
 	private PreparedStatement updateProduct;
@@ -27,13 +27,13 @@ public class ProductDB implements ProductDBIF {
 	private static final String FIND_ADDRESS_BY_ID_QUERY = "SELECT * FROM Address WHERE address_id = ?";
 	private PreparedStatement findAddressByID;
 	
-	private static final String FIND_ACCESSORY_QUERY = "SELECT * FROM AccessoryView WHERE barcode = ?";
+	private static final String FIND_ACCESSORY_QUERY = "SELECT * FROM View_Accessory WHERE barcode = ?";
 	private PreparedStatement findAccessory;
-	private static final String FIND_CLOTHING_QUERY = "SELECT * FROM ClothingView WHERE barcode = ?";
+	private static final String FIND_CLOTHING_QUERY = "SELECT * FROM View_Clothing WHERE barcode = ?";
 	private PreparedStatement findClothing;
-	private static final String FIND_EQUIPMENT_QUERY = "SELECT * FROM EquipmentView WHERE barcode = ?";
+	private static final String FIND_EQUIPMENT_QUERY = "SELECT * FROM View_Equipment WHERE barcode = ?";
 	private PreparedStatement findEquipment;
-	private static final String FIND_GUN_REPLICA_QUERY = "SELECT * FROM GunReplicaView WHERE barcode = ?";
+	private static final String FIND_GUN_REPLICA_QUERY = "SELECT * FROM View_GunReplica WHERE barcode = ?";
 	private PreparedStatement findGunReplica;
 	
 
@@ -67,61 +67,70 @@ public class ProductDB implements ProductDBIF {
 		Product currentProduct = null;
 		
 		try {
-			findSupplierByID.setInt(1, resultSet.getInt("supplier_id"));
-			ResultSet resultSetSupplier = findSupplierByID.executeQuery();
-			findSupplierByID.setInt(1, resultSetSupplier.getInt("address_id"));
-			ResultSet resultSetAddress = findAddressByID.executeQuery();
-			
-			String productType = resultSet.getString("product_type");
-			switch (productType) {
-			case "Accessory":
-				currentProduct = new Accessory(resultSet.getString("name"), 
-						resultSet.getDouble("purchase_price"), 
-						resultSet.getDouble("rent_price"), 
-						resultSet.getString("country_of_origin"), 
-						resultSet.getInt("min_stock"), 
-						resultSet.getString("barcode"), 
-						new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zipcode"), resultSetAddress.getString("city"), resultSetAddress.getString("country")), resultSetSupplier.getString("cvr")), 
-						resultSet.getString("type"), 
-						resultSet.getString("description"));
-				break;
-			case "Clothing":
-				currentProduct = new Clothing(resultSet.getString("name"), 
-						resultSet.getDouble("purchase_price"), 
-						resultSet.getDouble("rent_price"), 
-						resultSet.getString("country_of_origin"), 
-						resultSet.getInt("min_stock"), 
-						resultSet.getString("barcode"),  
-						new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zipcode"), resultSetAddress.getString("city"), resultSetAddress.getString("country")), resultSetSupplier.getString("cvr")), 
-						resultSet.getString("size"), 
-						resultSet.getString("colour"));
-				break;
-			case "Equipment":
-				currentProduct = new Equipment(resultSet.getString("name"), 
-						resultSet.getDouble("purchase_price"), 
-						resultSet.getDouble("rent_price"), 
-						resultSet.getString("country_of_origin"), 
-						resultSet.getInt("min_stock"), 
-						resultSet.getString("barcode"), 
-						new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zipcode"), resultSetAddress.getString("city"), resultSetAddress.getString("country")), resultSetSupplier.getString("cvr")), 
-						resultSet.getString("type"), 
-						resultSet.getString("description"));
-				break;
-			case "GunReplica": 
-				currentProduct = new GunReplica(resultSet.getString("name"), 
-						resultSet.getDouble("purchase_price"), 
-						resultSet.getDouble("rent_price"), 
-						resultSet.getString("country_of_origin"), 
-						resultSet.getInt("min_stock"), 
-						resultSet.getString("barcode"), 
-						new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zipcode"), resultSetAddress.getString("city"), resultSetAddress.getString("country")), resultSetSupplier.getString("cvr")), 
-						resultSet.getString("calibre"), 
-						resultSet.getString("material"));
-				break;
+			if (resultSet.next()) {
+				findSupplierByID.setInt(1, resultSet.getInt("supplier_id"));
+				ResultSet resultSetSupplier = findSupplierByID.executeQuery();
+				if (resultSetSupplier.next()) {
+					findAddressByID.setInt(1, resultSetSupplier.getInt("address_id"));
+					ResultSet resultSetAddress = findAddressByID.executeQuery();
+					if (resultSetAddress.next()) {
+						String productType = resultSet.getString("product_type");
+						switch (productType) {
+						case "Accessory":
+							currentProduct = new Accessory(resultSet.getString("name"), 
+									resultSet.getDouble("purchase_price"), 
+									resultSet.getDouble("rent_price"), 
+									resultSet.getString("country_of_origin"), 
+									resultSet.getInt("min_stock"), 
+									resultSet.getString("barcode"), 
+									new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), 
+									new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zip_code"), resultSetAddress.getString("city"), resultSetAddress.getString("country"))), 
+									resultSet.getString("type"), 
+									resultSet.getString("description"));
+							break;
+						case "Clothing":
+							currentProduct = new Clothing(resultSet.getString("name"), 
+									resultSet.getDouble("purchase_price"), 
+									resultSet.getDouble("rent_price"), 
+									resultSet.getString("country_of_origin"), 
+									resultSet.getInt("min_stock"), 
+									resultSet.getString("barcode"),  
+									new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), 
+									new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zip_code"), resultSetAddress.getString("city"), resultSetAddress.getString("country"))), 
+									resultSet.getString("size"), 
+									resultSet.getString("colour"));
+							break;
+						case "Equipment":
+							currentProduct = new Equipment(resultSet.getString("name"), 
+									resultSet.getDouble("purchase_price"), 
+									resultSet.getDouble("rent_price"), 
+									resultSet.getString("country_of_origin"), 
+									resultSet.getInt("min_stock"), 
+									resultSet.getString("barcode"), 
+									new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), 
+									new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zip_code"), resultSetAddress.getString("city"), resultSetAddress.getString("country"))), 
+									resultSet.getString("type"), 
+									resultSet.getString("description"));
+							break;
+						case "GunReplica": 
+							currentProduct = new GunReplica(resultSet.getString("name"), 
+									resultSet.getDouble("purchase_price"), 
+									resultSet.getDouble("rent_price"), 
+									resultSet.getString("country_of_origin"), 
+									resultSet.getInt("min_stock"), 
+									resultSet.getString("barcode"), 
+									new Supplier(resultSetSupplier.getString("name"), resultSetSupplier.getString("phone_no"), resultSetSupplier.getString("email"), 
+									new Address(resultSetAddress.getString("street_name"), resultSetAddress.getInt("zip_code"), resultSetAddress.getString("city"), resultSetAddress.getString("country"))), 
+									resultSet.getString("calibre"), 
+									resultSet.getString("material"));
+							break;
+						}
+					}
+				}
 			}
 			
 		} catch (SQLException e) {
-			
+			System.out.println("øv");
 		}
 		
 		return currentProduct;
@@ -136,26 +145,33 @@ public class ProductDB implements ProductDBIF {
 			ResultSet resultSet = findProductByBarcode.executeQuery();
 			ResultSet resultSetView = null;
 			
-			String productType = resultSet.getString("product_type");
-			switch (productType) {
-			case "Accessory":
-				resultSetView = findAccessory.executeQuery();
-				break;
-			case "Clothing":
-				resultSetView = findClothing.executeQuery();
-				break;
-			case "Equipment":
-				resultSetView = findEquipment.executeQuery();
-				break;
-			case "GunReplica":
-				resultSetView = findGunReplica.executeQuery();
-				break;
+			if (resultSet.next()) {
+				String productType = resultSet.getString("product_type");
+				System.out.println(productType);
+				switch (productType) {
+				case "Accessory":
+					findAccessory.setString(1, barcode);
+					resultSetView = findAccessory.executeQuery();
+					break;
+				case "Clothing":
+					findClothing.setString(1, barcode);
+					resultSetView = findClothing.executeQuery();
+					break;
+				case "Equipment":
+					findEquipment.setString(1,  barcode);
+					resultSetView = findEquipment.executeQuery();
+					break;
+				case "GunReplica":
+					findGunReplica.setString(1, barcode);
+					resultSetView = findGunReplica.executeQuery();
+					break;
+				}
 			}
 			
 			currentProduct = buildObject(resultSetView);
 			
 		} catch (SQLException e) {
-			
+			System.out.println("øv");
 		}
 		
 		return currentProduct;

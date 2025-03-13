@@ -7,6 +7,8 @@ import controller.SaleOrderController;
 import controller.SaleOrderControllerIF;
 import controller.CustomerController;
 import controller.CustomerControllerIF;
+import controller.ProductController;
+import controller.ProductControllerIF;
 import db.DBConnection;
 import model.Address;
 import model.SaleOrder;
@@ -14,6 +16,9 @@ import model.SaleOrder;
 public class TryMe {
 	private static SaleOrderControllerIF saleOrderController;
 	private static CustomerControllerIF customerController;
+	private static ProductControllerIF productController;
+	
+	
 	public static void main(String[]args) {
 		init();
 		
@@ -29,7 +34,9 @@ public class TryMe {
 //		saleOrderController.newPrivateCustomer("John Efternavn", "phone", "email", address);
 //		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer().getName());
 		
-		System.out.println(customerController.findCustomerByPhoneNo("9876543210").getEmail());
+		String name = productController.findProductByBarcode("1234567890123").getName();
+		
+		System.out.println(name);
 		
 		
 	}
@@ -38,6 +45,7 @@ public class TryMe {
 	public static void init() {
 		saleOrderController = new SaleOrderController();
 		customerController = new CustomerController();
+		productController = new ProductController();
 	}
 	
 	
