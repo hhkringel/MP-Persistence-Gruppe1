@@ -7,10 +7,9 @@ public class OrderLine {
 	private double soldAtPrice;
 	private Product product;
 	
-	public OrderLine() {
+	public OrderLine(int quantity, Product product) {
 		
 		this.quantity = quantity;
-		this.soldAtPrice = soldAtPrice;
 		this.product = product;
 		
 	}
