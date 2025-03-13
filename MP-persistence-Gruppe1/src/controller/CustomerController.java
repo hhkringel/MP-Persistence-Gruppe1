@@ -1,5 +1,5 @@
 package controller;
 
-public class CustomerController {
+public class CustomerController implements CustomerControllerIF {
 
 }

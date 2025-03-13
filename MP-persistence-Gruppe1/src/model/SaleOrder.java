@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class SaleOrder {
 
@@ -10,10 +11,10 @@ public class SaleOrder {
 	private boolean isRent;
 	private Customer customer;
 	private Employee employee;
+	private List<OrderLine> orderLines;
 	
-	public SaleOrder(LocalDate purchaseDate, int orderNo) {
+	public SaleOrder(LocalDate purchaseDate) {
 		this.purchaseDate = purchaseDate;
-		this.orderNo = orderNo;
 	}
 
 	public LocalDate getPurchaseDate() {
