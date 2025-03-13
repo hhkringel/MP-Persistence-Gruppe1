@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SaleOrder {
@@ -15,6 +16,7 @@ public class SaleOrder {
 	
 	public SaleOrder(LocalDate purchaseDate) {
 		this.purchaseDate = purchaseDate;
+		this.orderLines = new ArrayList<>();
 	}
 
 	public LocalDate getPurchaseDate() {

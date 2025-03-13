@@ -74,21 +74,17 @@ public class SaleOrderDB implements SaleOrderDBIF {
 		try {
 			insertSaleOrder.setInt(1, saleOrder.getOrderNo());
 			insertSaleOrder.setDate(2, Date.valueOf(saleOrder.getPurchaseDate()));
-			insertSaleOrder.setDate(3, Date.valueOf(saleOrder.getDeliveryDate()));
+			if (saleOrder.getDeliveryDate() != null) {
+				insertSaleOrder.setDate(3, Date.valueOf(saleOrder.getDeliveryDate()));
+			}
 			insertSaleOrder.setBoolean(4, saleOrder.isRent());
 			insertSaleOrder.setString(5, saleOrder.getCustomer().getPhoneNo());
 			insertSaleOrder.setString(6, saleOrder.getEmployee().getEmployeeID());
-			ResultSet resultSet = insertSaleOrder.executeQuery();
-		} catch (SQLException e) {
 			
-		}
-		
-		try {
 			insertSaleOrder.executeUpdate();
 		} catch (SQLException e) {
 			
 		}
-		
 		
 	}
 

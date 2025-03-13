@@ -15,7 +15,7 @@ public class SaleOrderController implements SaleOrderControllerIF {
 	private ProductControllerIF productController;
 	private CustomerControllerIF customerController;
 	private SaleOrderDBIF saleOrderDB;
-	private SaleOrder currentSaleOrder = null;
+	private SaleOrder currentSaleOrder;
 	
 	public SaleOrderController() {
 		

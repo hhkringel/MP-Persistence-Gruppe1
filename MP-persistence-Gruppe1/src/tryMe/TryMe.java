@@ -28,21 +28,26 @@ public class TryMe {
 			System.out.println("fail");
 		}
 		
-		Address address = new Address("testStreet", 909090, "testCity", "testCountry");
+//		Address address = new Address("testStreet", 909090, "testCity", "testCountry");
+//		
+////		saleOrderController.createSaleOrder(LocalDate.EPOCH);
+////		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer());
+//		
+//
+//		String name = productController.findProductByBarcode("1234567890123").getName();
+//		
+//		System.out.println(name);
+//		
+//		Customer customer = customerController.createPrivateCustomer("John Efternavn", "phone5", "email@email.com", address);
+////		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer().getName());
+//		System.out.println(customer.getPhoneNo());
 		
-//		saleOrderController.createSaleOrder(LocalDate.EPOCH);
-//		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer());
+		Address address1 = new Address("testStreet10", 11111, "testCity10", "testCountry10");
+		saleOrderController.createSaleOrder(LocalDate.EPOCH);
+		saleOrderController.addOrderLineToSaleOrder("1234567890123", 3);
+		saleOrderController.newPrivateCustomer("Dude Guy", "phone10", "email10@email.com", address1);
 		
-<<<<<<< Updated upstream
-		String name = productController.findProductByBarcode("1234567890123").getName();
-		
-		System.out.println(name);
-=======
-		Customer customer = saleOrderController.newPrivateCustomer("John Efternavn", "phone", "email@email.com", address);
-//		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer().getName());
-		System.out.println(customer.getPhoneNo());
-//		System.out.println(customerController.findCustomerByPhoneNo("9876543210").getEmail());
->>>>>>> Stashed changes
+		saleOrderController.insertSaleOrder();
 		
 		
 	}

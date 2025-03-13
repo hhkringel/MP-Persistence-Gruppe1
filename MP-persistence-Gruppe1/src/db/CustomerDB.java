@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import model.Address;
 import model.ClubCustomer;
@@ -15,8 +16,7 @@ public class CustomerDB implements CustomerDBIF {
 	private PreparedStatement findCustomerByPhoneNo;
 	private static final String FIND_ADDRESS_BY_ADDRESSID_QUERY = "SELECT * FROM Address WHERE address_id = ?";
 	private PreparedStatement findAddressByAddressID;
-	private static final String INSERT_CUSTOMER_QUERY = "INSERT INTO Customer (phone_no, f_name, l_name, email, cvr, address_id, customer_type)"
-			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_CUSTOMER_QUERY = "INSERT INTO Customer (phone_no, f_name, l_name, email, cvr, address_id, customer_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private PreparedStatement insertCustomer;
 	private static final String INSERT_ADDRESS_QUERY = "INSERT INTO Address(street_name, zip_code, city, country)"
 			+ "VALUES (?, ?, ?, ?)";
@@ -31,10 +31,10 @@ public class CustomerDB implements CustomerDBIF {
 		Connection con = DBConnection.getInstance().getDBcon();
 		try {
 			findCustomerByPhoneNo = con.prepareStatement(FIND_CUSTOMER_BY_PHONE_NO_QUERY);
-			findAddressByAddressID = con.prepareStatement(FIND_ADDRESS_BY_ADDRESSID_QUERY);
+			findAddressByAddressID = con.prepareStatement(FIND_ADDRESS_BY_ADDRESSID_QUERY, Statement.RETURN_GENERATED_KEYS);
 			insertCustomer = con.prepareStatement(INSERT_CUSTOMER_QUERY);
 			insertAddress = con.prepareStatement(INSERT_ADDRESS_QUERY);
-;		} catch(SQLException e) {
+		} catch(SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -59,45 +59,30 @@ public class CustomerDB implements CustomerDBIF {
 	public void insertCustomer(Customer customer) {
 		
 		
-		String[] name = customer.getName().split(" ");
-		System.out.println("Inserting customer with values:");
-		System.out.println("Phone No: " + customer.getPhoneNo());
-		System.out.println("First Name: " + name[0]);
-		System.out.println("Last Name: " + name[1]);
-		System.out.println("Email: " + customer.getEmail());
-		System.out.println("CVR: " + (customer instanceof ClubCustomer ? ((ClubCustomer) customer).getCvr() : "NULL"));
-		System.out.println("Address ID: " + customer.getAddress().getAddressID());
-		System.out.println("Customer Type: " + customer.getCustomerType());
-		
 		try {
 					insertAddress.setString(1, customer.getAddress().getStreetName());
 					insertAddress.setInt(2, customer.getAddress().getZipCode());
 					insertAddress.setString(3, customer.getAddress().getCity());
 					insertAddress.setString(4, customer.getAddress().getCountry());
-					int affectedRows = insertAddress.executeUpdate();
-					if (affectedRows == 0) {
-						throw new SQLException("Failed to insert address, no rows affected");
-					}
+					
+					insertAddress.executeUpdate();
 					
 					insertCustomer.setString(1, customer.getPhoneNo());
-//					String[] name = customer.getName().split(" ");
+					String[] name = customer.getName().split(" ");
 					insertCustomer.setString(2, name[0]);
 					insertCustomer.setString(3, name[1]);
 					insertCustomer.setString(4, customer.getEmail());
-					insertCustomer.setNull(5, java.sql.Types.VARCHAR);
-					insertCustomer.setInt(6, customer.getAddress().getAddressID());
+					insertCustomer.setInt(6, 1);
 					insertCustomer.setString(7, customer.getCustomerType());
 					
 					if(customer instanceof ClubCustomer) {
-						insertCustomer.setString(4, ((ClubCustomer) customer).getCvr());
+						insertCustomer.setString(5, ((ClubCustomer) customer).getCvr());
 					} else {
-						insertCustomer.setNull(4, java.sql.Types.VARCHAR);
+						insertCustomer.setNull(5, java.sql.Types.VARCHAR);
 					}
 					
-					affectedRows = insertCustomer.executeUpdate();
-					if (affectedRows == 0) {
-						throw new SQLException("Failed to insert customer, no rows affected");
-					}
+					insertCustomer.executeUpdate();
+					
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
