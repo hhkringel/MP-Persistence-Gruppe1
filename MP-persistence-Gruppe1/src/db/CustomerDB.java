@@ -13,8 +13,8 @@ import model.PrivateCustomer;
 public class CustomerDB implements CustomerDBIF {
 	private static final String FIND_CUSTOMER_BY_PHONE_NO_QUERY = "SELECT * FROM customer WHERE phone_no = ?";
 	private PreparedStatement findCustomerByPhoneNo;
-	private static final String INSERT_CUSTOMER_QUERY = "INSERT INTO Customer (name, phone_no, email, address_id, customer_id, cvr)"
-			+ "VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_CUSTOMER_QUERY = "INSERT INTO Customer (phone_no, f_name, l_name, email, cvr, address_id, customer_type)"
+			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 	private PreparedStatement insertCustomer;
 	private static final String INSERT_ADDRESS_QUERY = "INSERT INTO address(street_name, zip_code, city, country)"
 			+ "VALUES (?, ?, ?, ?)";
@@ -62,16 +62,18 @@ public class CustomerDB implements CustomerDBIF {
 						throw new SQLException("Failed to insert address, no rows affected");
 					}
 					
-					insertCustomer.setString(1, customer.getName());
-					insertCustomer.setString(2, customer.getPhoneNo());
+					insertCustomer.setString(1, customer.getPhoneNo());
+					String[] name = customer.getName().split(" ");
+					insertCustomer.setString(2, name[0]);
+					insertCustomer.setString(3, name[1]);
 					insertCustomer.setString(3, customer.getEmail());
-					
-					insertCustomer.setInt(5, customer.getCustomerID());
+					insertCustomer.setInt(5, customer.getAddress().getAddressID());
+					insertCustomer.setString(6, customer.getCustomerType());
 					
 					if(customer instanceof ClubCustomer) {
-						insertCustomer.setString(6, ((ClubCustomer) customer).getCvr());
+						insertCustomer.setString(4, ((ClubCustomer) customer).getCvr());
 					} else {
-						insertCustomer.setNull(6, java.sql.Types.VARCHAR);
+						insertCustomer.setNull(4, java.sql.Types.VARCHAR);
 					}
 					
 					affectedRows = insertCustomer.executeUpdate();
@@ -95,19 +97,21 @@ public class CustomerDB implements CustomerDBIF {
 	            resultSet.getString("country")
 	        );
 
-	        int customerId = resultSet.getInt("customer_id");
-	        String name = resultSet.getString("name");
+	        String name = "" + resultSet.getString("f_name") + resultSet.getString("l_name");
 	        String phoneNo = resultSet.getString("phone_no");
 	        String email = resultSet.getString("email");
 	        String cvr = resultSet.getString("cvr");
 
-	        if (cvr != null) {
-	            // If CVR exists, create a ClubCustomer
-	            currentCustomer = new ClubCustomer(name, phoneNo, email, address, cvr);
-	        } else {
-	            // Otherwise, create a PrivateCustomer
-	            currentCustomer = new PrivateCustomer(name, phoneNo, email, address);
-	        }
+	        String customerType = resultSet.getString("customer_type");
+			switch (customerType) {
+			case "ClubCustomer":
+				currentCustomer = new ClubCustomer(name, phoneNo, email, address, cvr);
+				break;
+			case "PrivateCustomer":
+				currentCustomer = new PrivateCustomer(name, phoneNo, email, address);
+				break;
+			}
+	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }

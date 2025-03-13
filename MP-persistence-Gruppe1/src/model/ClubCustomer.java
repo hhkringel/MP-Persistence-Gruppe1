@@ -5,6 +5,7 @@ public class ClubCustomer extends Customer {
 
 	public ClubCustomer(String name, String phoneNo, String email, Address address, String cvr) {
 		super(name, phoneNo, email, address);
+		this.customerType = "ClubCustomer";
 		this.cvr = cvr;
 	}
 

@@ -11,10 +11,10 @@ public class DBConnection {
 	
 	//private static final String  driver = "jdbc:sqlserver://localhost:1433";
 	private static final String serverAddress = "jdbc:sqlserver://localhost:1433";
-    private static final String  databaseName = ";databaseName=PayStation";
+    private static final String  databaseName = ";databaseName=DMA-CSD-S243_10647447";
     
     private static String  userName = ";user=sa";
-    private static String password = ";password=1234";
+    private static String password = ";password=Fangeleg3";
     private static String encryption = ";encrypt=false";
    
     private DatabaseMetaData dma;

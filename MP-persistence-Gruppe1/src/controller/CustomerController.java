@@ -31,12 +31,7 @@ public class CustomerController implements CustomerControllerIF{
 
 	@Override
 	public Customer findCustomerByPhoneNo(String phoneNo) {
-		customerDB.findCustomerByPhoneNo(phoneNo);
-	}
-
-	@Override
-	public void updateCustomer(Customer customer) {
-		customerDB.updateCustomer(customer);
+		return customerDB.findCustomerByPhoneNo(phoneNo);
 	}
 
 	@Override

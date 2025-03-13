@@ -8,7 +8,7 @@ public class ProductController implements ProductControllerIF {
 
     ProductDBIF productDB;
 
-    ProductController() {
+    public ProductController() {
         productDB = new ProductDB();
     }
 
