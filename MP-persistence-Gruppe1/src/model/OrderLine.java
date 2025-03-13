@@ -1,7 +1,8 @@
 package model;
 
 public class OrderLine {
-
+	
+	private int orderLineID;
 	private int quantity;
 	private double soldAtPrice;
 	private Product product;
@@ -35,6 +36,14 @@ public class OrderLine {
 
 	public Product getProduct() {
 		return product;
+	}
+	
+	public int getOrderLineID() {
+		return orderLineID;
+	}
+
+	public void setOrderLineID(int orderLineID) {
+		this.orderLineID = orderLineID;
 	}
 
 	

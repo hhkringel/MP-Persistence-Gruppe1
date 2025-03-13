@@ -6,8 +6,17 @@ public class Address {
 	private String zipCode;
 	private String city;
 	private String country;
+	private int addressID;
 	
 	
+	public int getAddressID() {
+		return addressID;
+	}
+
+	public void setAddressID(int addressID) {
+		this.addressID = addressID;
+	}
+
 	public Address(String streetName, String zipCode, String city, String country) {
 		
 		this.streetName = streetName;
