@@ -54,7 +54,7 @@ public class CustomerDB implements CustomerDBIF {
 	public void insertCustomer(Customer customer) {
 		try {
 					insertAddress.setString(1, customer.getAddress().getStreetName());
-					insertAddress.setString(2, customer.getAddress().getZipCode());
+					insertAddress.setInt(2, customer.getAddress().getZipCode());
 					insertAddress.setString(3, customer.getAddress().getCity());
 					insertAddress.setString(4, customer.getAddress().getCountry());
 					int affectedRows = insertAddress.executeUpdate();
@@ -90,7 +90,7 @@ public class CustomerDB implements CustomerDBIF {
 	        // Build Address directly from the ResultSet
 	        Address address = new Address(
 	            resultSet.getString("street_name"),
-	            resultSet.getString("zip_code"),
+	            resultSet.getInt("zip_code"),
 	            resultSet.getString("city"),
 	            resultSet.getString("country")
 	        );
