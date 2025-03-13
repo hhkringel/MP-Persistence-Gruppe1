@@ -13,8 +13,6 @@ public interface CustomerControllerIF {
 	
 	public Customer findCustomerByPhoneNo(String phoneNo);
 	
-	public void updateCustomer(Customer customer);
-	
 	public void insertCustomer(Customer customer);
 
 }
