@@ -13,8 +13,8 @@ public class SaleOrderDB implements SaleOrderDBIF {
 	
 	private static final String FIND_SALEORDER_BY_ID_QUERY = "SELECT * FROM SaleOrder WHERE order_no = ?";
 	private PreparedStatement findSaleOrderByID;
-	private static final String INSERT_SALEORDER_QUERY= "INSERT INTO SaleOrder (order_no, purchase_date, delivery_date, customer_id, employee_id, is_rent)"
-														+ " VALUES (?, ?, ?, ?, ?, ?)";
+	private static final String INSERT_SALEORDER_QUERY= "INSERT INTO SaleOrder (purchase_date, delivery_date, is_rent, customer_phone_no, employee_id)"
+														+ " VALUES (?, ?, ?, ?, ?)";
 	private PreparedStatement insertSaleOrder;
 	
 	
@@ -72,14 +72,17 @@ public class SaleOrderDB implements SaleOrderDBIF {
 	public void insertSaleOrder(SaleOrder saleOrder) {
 		
 		try {
-			insertSaleOrder.setInt(1, saleOrder.getOrderNo());
-			insertSaleOrder.setDate(2, Date.valueOf(saleOrder.getPurchaseDate()));
+			insertSaleOrder.setDate(1, Date.valueOf(saleOrder.getPurchaseDate()));
 			if (saleOrder.getDeliveryDate() != null) {
-				insertSaleOrder.setDate(3, Date.valueOf(saleOrder.getDeliveryDate()));
+				insertSaleOrder.setDate(2, Date.valueOf(saleOrder.getDeliveryDate()));
 			}
-			insertSaleOrder.setBoolean(4, saleOrder.isRent());
-			insertSaleOrder.setString(5, saleOrder.getCustomer().getPhoneNo());
-			insertSaleOrder.setString(6, saleOrder.getEmployee().getEmployeeID());
+			else {
+				insertSaleOrder.setNull(2, java.sql.Types.VARCHAR);
+			}
+			insertSaleOrder.setBoolean(3, saleOrder.isRent());
+			insertSaleOrder.setString(4, saleOrder.getCustomer().getPhoneNo());
+			//insertSaleOrder.setInt(6, saleOrder.getEmployee().getEmployeeID());
+			insertSaleOrder.setInt(5, 1);
 			
 			insertSaleOrder.executeUpdate();
 		} catch (SQLException e) {

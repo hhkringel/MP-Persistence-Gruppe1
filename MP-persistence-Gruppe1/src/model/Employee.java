@@ -1,13 +1,13 @@
 package model;
 
 public class Employee {
-	private String employeeID;
+	private int employeeID;
 	private String name;
 	private String phoneNo;
 	private String email;
 	private Address address;
 	
-	public Employee(String employeeID, String name, String phoneNo, String email, Address address) {
+	public Employee(int employeeID, String name, String phoneNo, String email, Address address) {
 		this.employeeID = employeeID;
 		this.name = name;
 		this.phoneNo = phoneNo;
@@ -15,11 +15,11 @@ public class Employee {
 		this.address = address;
 	}
 
-	public String getEmployeeID() {
+	public int getEmployeeID() {
 		return employeeID;
 	}
 
-	public void setEmployeeID(String employeeID) {
+	public void setEmployeeID(int employeeID) {
 		this.employeeID = employeeID;
 	}
 

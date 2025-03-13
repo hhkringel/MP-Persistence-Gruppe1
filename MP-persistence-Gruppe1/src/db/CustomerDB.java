@@ -72,6 +72,7 @@ public class CustomerDB implements CustomerDBIF {
 					insertCustomer.setString(2, name[0]);
 					insertCustomer.setString(3, name[1]);
 					insertCustomer.setString(4, customer.getEmail());
+					//address_id sættes til 1, da vi ikke kan hente det korrekte id.
 					insertCustomer.setInt(6, 1);
 					insertCustomer.setString(7, customer.getCustomerType());
 					

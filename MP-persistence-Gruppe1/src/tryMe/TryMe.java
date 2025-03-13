@@ -42,10 +42,10 @@ public class TryMe {
 ////		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer().getName());
 //		System.out.println(customer.getPhoneNo());
 		
-		Address address1 = new Address("testStreet10", 11111, "testCity10", "testCountry10");
-		saleOrderController.createSaleOrder(LocalDate.EPOCH);
+		Address address1 = new Address("finalStreet", 123321, "finalCity", "finalCountry");
+		saleOrderController.createSaleOrder(LocalDate.now());
 		saleOrderController.addOrderLineToSaleOrder("1234567890123", 3);
-		saleOrderController.newPrivateCustomer("Dude Guy", "phone10", "email10@email.com", address1);
+		saleOrderController.newPrivateCustomer("Final Fuckingtest", "finalPhone", "final@email.com", address1);
 		
 		saleOrderController.insertSaleOrder();
 		

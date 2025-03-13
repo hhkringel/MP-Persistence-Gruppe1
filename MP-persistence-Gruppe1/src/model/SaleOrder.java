@@ -17,6 +17,8 @@ public class SaleOrder {
 	public SaleOrder(LocalDate purchaseDate) {
 		this.purchaseDate = purchaseDate;
 		this.orderLines = new ArrayList<>();
+		this.isRent = false;
+		this.deliveryDate = null;
 	}
 
 	public LocalDate getPurchaseDate() {
