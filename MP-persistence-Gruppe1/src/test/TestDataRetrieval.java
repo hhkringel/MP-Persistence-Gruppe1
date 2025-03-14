@@ -22,6 +22,7 @@ import db.SaleOrderDBIF;
 import model.SaleOrder;
 import db.CustomerDB;
 import db.CustomerDBIF;
+import db.DBConnection;
 
 class TestDataRetrieval {
 	static ProductDBIF productDB;
@@ -37,6 +38,7 @@ class TestDataRetrieval {
 
 	@AfterAll
 	static void tearDownAfterClass() throws Exception {
+		DBConnection.closeConnection();
 	}
 
 	@BeforeEach
@@ -51,9 +53,9 @@ class TestDataRetrieval {
 	void testSaleOrderDate() {
 		//Arrange
 		String expectedDate = "2024-03-10";
-		int OrderNo = 1;
+		int orderNo = 1;
 		//Act
-		LocalDate retrievedDate = saleOrderDB.findSaleOrderByID(OrderNo).getPurchaseDate();
+		LocalDate retrievedDate = saleOrderDB.findSaleOrderByID(orderNo).getPurchaseDate();
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String formattedString = retrievedDate.format(formatter);
