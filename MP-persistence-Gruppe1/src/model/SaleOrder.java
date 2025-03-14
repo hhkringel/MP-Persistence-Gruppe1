@@ -65,11 +65,11 @@ public class SaleOrder {
 		return customer;
 	}
 
-	public void setCustomer(Customer customer) {
+	public void addCustomerToSaleOrder(Customer customer) {
 		this.customer = customer;
 	}
 	
-	public void addOrderLine(OrderLine orderLine) {
+	public void addOrderLineToSaleOrder(OrderLine orderLine) {
 		orderLines.add(orderLine);
 	}
 	

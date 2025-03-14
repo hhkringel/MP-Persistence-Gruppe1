@@ -41,7 +41,7 @@ class TestCaseNo3ErrorInProductOrder {
 		Address testAddress = new Address("Havevej", 4000, "Vejby", "Rusland");
 		PrivateCustomer testCustomer = customerController.createPrivateCustomer("Jens Vejmand", "", "givmigpenge@ofir.dk", testAddress);
 		
-		SaleOrder testSaleOrder = saleOrderController.addCustomerToOrder(testCustomer);
+		SaleOrder testSaleOrder = saleOrderController.addCustomerToSaleOrder(testCustomer);
 		
 		Product testProduct = productController.findProductByBarcode("0");
 		
