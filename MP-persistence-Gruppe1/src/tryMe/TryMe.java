@@ -10,6 +10,8 @@ import controller.CustomerControllerIF;
 import controller.ProductController;
 import controller.ProductControllerIF;
 import db.DBConnection;
+import db.SaleOrderDB;
+import db.SaleOrderDBIF;
 import model.Address;
 import model.SaleOrder;
 import model.Customer;
@@ -18,6 +20,7 @@ public class TryMe {
 	private static SaleOrderControllerIF saleOrderController;
 	private static CustomerControllerIF customerController;
 	private static ProductControllerIF productController;
+	private static SaleOrderDBIF saleOrderDB;
 	
 	
 	public static void main(String[]args) {
@@ -42,16 +45,23 @@ public class TryMe {
 ////		System.out.println(saleOrderController.getCurrentSaleOrder().getCustomer().getName());
 //		System.out.println(customer.getPhoneNo());
 		
-		Address address1 = new Address("finalStreet", 123321, "finalCity", "finalCountry");
-		saleOrderController.createSaleOrder(LocalDate.now());
-		saleOrderController.addOrderLineToSaleOrder("1234567890123", 3);
-		saleOrderController.addOrderLineToSaleOrder("1234567890123", 4);
-		saleOrderController.addOrderLineToSaleOrder("1234567890123", 8);
-		saleOrderController.newPrivateCustomer("Final Fuckingtest", "finalPhone", "final@email.com", address1);
 		
-		saleOrderController.newInvoice();
 		
-		saleOrderController.insertSaleOrder();
+		
+//		Address address1 = new Address("finalStreet", 123321, "finalCity", "finalCountry");
+//		saleOrderController.createSaleOrder(LocalDate.now());
+//		saleOrderController.addOrderLineToSaleOrder("1234567890123", 3);
+//		saleOrderController.addOrderLineToSaleOrder("1234567890123", 4);
+//		saleOrderController.addOrderLineToSaleOrder("1234567890123", 8);
+//		saleOrderController.newPrivateCustomer("Final Fuckingtest", "finalPhone", "final@email.com", address1);
+//		
+//		saleOrderController.newInvoice();
+//		
+//		saleOrderController.insertSaleOrder();
+//		
+		
+		SaleOrder saleOrder = saleOrderDB.findSaleOrderByID(4);
+		System.out.println(saleOrder.getOrderNo());
 		
 		
 	}
@@ -61,6 +71,7 @@ public class TryMe {
 		saleOrderController = new SaleOrderController();
 		customerController = new CustomerController();
 		productController = new ProductController();
+		saleOrderDB = new SaleOrderDB();
 	}
 	
 	

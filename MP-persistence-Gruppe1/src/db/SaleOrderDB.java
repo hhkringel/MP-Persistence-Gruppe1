@@ -47,7 +47,7 @@ public class SaleOrderDB implements SaleOrderDBIF {
 			currentSaleOrder = buildObject(resultSet);
 			
 		} catch (SQLException e) {
-			
+			System.out.println("no object was built");
 		}
 		
 		
@@ -59,9 +59,17 @@ public class SaleOrderDB implements SaleOrderDBIF {
 		SaleOrder currentSaleOrder = null;
 		
 		try {
-			currentSaleOrder = new SaleOrder(resultSet.getDate("purchase_date").toLocalDate());
-		} catch(SQLException e) {
+			if(resultSet.next()) {
+				currentSaleOrder = new SaleOrder(resultSet.getDate("purchase_date").toLocalDate());
+				currentSaleOrder.setOrderNo(resultSet.getInt("order_no"));
+				if (resultSet.getDate("delivery_date") != null) {
+					currentSaleOrder.setDeliveryDate(resultSet.getDate("delivery_date").toLocalDate());
+				}
+				currentSaleOrder.setRent(resultSet.getBoolean("is_rent"));
+			}
 			
+		} catch(SQLException e) {
+			System.out.println("No resultset found");
 		}
 		
 		
