@@ -16,6 +16,7 @@ import controller.SaleOrderControllerIF;
 import model.Address;
 import model.OrderLine;
 import model.PrivateCustomer;
+import model.Product;
 import model.SaleOrder;
 
 class TestCaseNo1SuccessfulOrder {
@@ -42,24 +43,22 @@ class TestCaseNo1SuccessfulOrder {
 	public void shouldGiveSuccessfulOrder() {
 		
 		// Arrange
-		Address testAddress = new Address("Havevej", "4000", "Vejby", "Rusland");
+		Address testAddress = new Address("Havevej", 4000, "Vejby", "Rusland");
 		PrivateCustomer testCustomer = customerController.createPrivateCustomer("Jens Vejmand", "88888888", "givmigpenge@ofir.dk", testAddress);
 		
 		SaleOrder testSaleOrder = saleOrderController.addCustomerToOrder(testCustomer);
 		
-		Product testProduct = productController.findByBarcode("ved ikke hvad en gyldig stregkode");
+		Product testProduct = productController.findProductByBarcode("123456890123");
 		
 		OrderLine testOrderLine = new OrderLine(5, testProduct);
 				
 		// Act
 		saleOrderController.addOrderLineToSaleOrder(testOrderLine);
 		
-		
 		// Assert
 		assertEquals(testCustomer, testSaleOrder.getCustomer(), "Should be the same customer");
 		assertEquals(testProduct, testOrderLine.getProduct(), "Should be the same product");
 		
-		fail("Not yet implemented");
 	}
 
 }
