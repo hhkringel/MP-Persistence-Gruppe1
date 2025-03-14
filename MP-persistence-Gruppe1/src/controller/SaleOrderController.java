@@ -61,18 +61,17 @@ public class SaleOrderController implements SaleOrderControllerIF {
 			
 			currentSaleOrder.addOrderLine(orderLine);
 		}
-		
-		
-		
-		
 	}
 	
 	public Customer newPrivateCustomer(String name, String phone, String email, Address address) {
 		Customer currentCustomer = customerController.createPrivateCustomer(name, phone, email, address);
-		currentSaleOrder.setCustomer(currentCustomer);
 		return currentCustomer;
 	}
 	
+	public void addCustomerToSaleOrder(Customer customer) {
+		currentSaleOrder.addCustomerToSaleOrder(customer);
+	}
+
 	public SaleOrder getCurrentSaleOrder() {
 		return currentSaleOrder;
 	}
