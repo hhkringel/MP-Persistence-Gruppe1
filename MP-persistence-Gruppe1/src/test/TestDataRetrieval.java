@@ -64,7 +64,7 @@ class TestDataRetrieval {
 	}
 	
 	@Test
-	void testCustomer() {
+	void testCustomerPhoneNo() {
 		//Arrange
 		String expectedPhoneNo = "88888888";
 		//Act
@@ -79,7 +79,7 @@ class TestDataRetrieval {
 	}
 	
 	@Test
-	void testProduct() {
+	void testProductBarcode() {
 		//Arrange
 		String expectedBarcode = "1234567890123";
 		//Act
