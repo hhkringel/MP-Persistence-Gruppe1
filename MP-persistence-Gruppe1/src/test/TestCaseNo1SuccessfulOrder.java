@@ -46,7 +46,7 @@ class TestCaseNo1SuccessfulOrder {
 		Address testAddress = new Address("Havevej", 4000, "Vejby", "Rusland");
 		PrivateCustomer testCustomer = customerController.createPrivateCustomer("Jens Vejmand", "88888888", "givmigpenge@ofir.dk", testAddress);
 		
-		SaleOrder testSaleOrder = saleOrderController.addCustomerToOrder(testCustomer);
+		SaleOrder testSaleOrder = saleOrderController.addCustomerToSaleOrder(testCustomer);
 		
 		Product testProduct = productController.findProductByBarcode("123456890123");
 		

@@ -46,8 +46,19 @@ public class SaleOrderController implements SaleOrderControllerIF {
 
 	@Override
 	public void newInvoice() {
+		double totalPrice = 0;
+		for(OrderLine o : getCurrentSaleOrder().getOrderLines()) {
+			int productNo = 1;
+			System.out.println("Product " + productNo + ": " + o.getProduct().getName());
+			System.out.println("Product price: " + o.getProduct().getPurchasePrice());
+			System.out.println("Quantity: " + o.getQuantity());
+			System.out.println("Subtotal: " + o.getProduct().getPurchasePrice() * o.getQuantity()+ "\n");
+			
+			totalPrice += o.getProduct().getPurchasePrice() * o.getQuantity();
+			productNo++;
+		}
 		
-		
+		System.out.println("Order total: " + totalPrice);
 	}
 	
 	public void addOrderLineToSaleOrder(String barcode, int quantity) {
@@ -59,7 +70,7 @@ public class SaleOrderController implements SaleOrderControllerIF {
 			Product foundProduct = productController.findProductByBarcode(barcode);
 			OrderLine orderLine = new OrderLine(quantity, foundProduct);
 			
-			currentSaleOrder.addOrderLine(orderLine);
+			currentSaleOrder.addOrderLineToSaleOrder(orderLine);
 		}
 	}
 	

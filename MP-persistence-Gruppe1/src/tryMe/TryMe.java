@@ -45,7 +45,11 @@ public class TryMe {
 		Address address1 = new Address("finalStreet", 123321, "finalCity", "finalCountry");
 		saleOrderController.createSaleOrder(LocalDate.now());
 		saleOrderController.addOrderLineToSaleOrder("1234567890123", 3);
+		saleOrderController.addOrderLineToSaleOrder("1234567890123", 4);
+		saleOrderController.addOrderLineToSaleOrder("1234567890123", 8);
 		saleOrderController.newPrivateCustomer("Final Fuckingtest", "finalPhone", "final@email.com", address1);
+		
+		saleOrderController.newInvoice();
 		
 		saleOrderController.insertSaleOrder();
 		

@@ -73,5 +73,8 @@ public class SaleOrder {
 		orderLines.add(orderLine);
 	}
 	
+	public List<OrderLine> getOrderLines(){
+		return orderLines;
+	}
 	
 }
